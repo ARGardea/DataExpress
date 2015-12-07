@@ -1,0 +1,31 @@
+doctype
+html
+    head
+        link( rel='stylesheet', href='/style.css')
+        title= 'Edit Person'
+    body
+        h3 Edit Person Page:
+        form(id='form', method='post', action='/edit/#{person.id}')
+            label(for='name') Name
+            br
+            input(type='text', id='name', name='personName', value='#{person.name}')
+            br
+            label(for='age') Age
+            br
+            input(type='text', id='age', name='personAge', value='#{person.age}')
+            br
+            label(for='victims') Victims
+            br
+            input(type='text', id='victims', name='personVictims', value='#{person.victims}')
+            br
+            label(for='people') Species
+            br
+            select(name='choosePeople', id='people')
+                option(value='#{person.species}', selected="selected") #{person.species}
+                option(value='Human') Human
+                option(value='Vampire') Vampire
+                option(value='Werewolf') Werewolf
+                option(value='Zombie') Zombie
+            br
+            input(type='submit', value='Update')
+                

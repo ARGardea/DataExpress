@@ -1,0 +1,44 @@
+doctype
+html
+    head
+        link( rel='stylesheet', href='style.css')
+        title= 'Person Database'
+        script(src="/Scripts/Canvas.js")
+    body
+        h3 Main Page:
+        a(class='button', href='../create') Create
+        canvas(id='barGraph')
+        table
+            thead
+                tr
+                    th Id
+                    th Name
+                    th Age
+                    th Victims
+                    th Type
+                    th Date Created
+                    th Date Updated
+                    th Edit
+                    th Delete
+            tbody
+                each p in people
+                    tr
+                        td
+                            |#{p._id}
+                        td
+                            |#{p.name}
+                        td
+                            |#{p.age}
+                        td
+                            |#{p.victims}
+                        td
+                            |#{p.species}
+                        td
+                            |#{p.created_on.toString()}
+                        td
+                            |#{p.update_on.toString()}
+                        td 
+                            a(href='/edit/#{p._id.toString()}' ) Edit
+                        td
+                            a(href='/remove/#{p._id.toString()}') Remove
+

@@ -1,0 +1,29 @@
+doctype
+html
+    head
+        link( rel='stylesheet', href='style.css')
+        title= 'Create Person'
+    body
+        h3 Create Person Page:
+        form(id='form', method='post', action='/create')
+            label(for='name') Name
+            br
+            input(type='text', id='name', name='personName')
+            br
+            label(for='age') Age
+            br
+            input(type='text', id='age', name='personAge')
+            br
+            label(for='victims') Victims
+            br
+            input(type='text', id='victims', name='personVictims')
+            br
+            label(for='people') Species 
+            br
+            select(name='choosePeople', id='people')
+                option(value='Human') Human
+                option(value='Vampire') Vampire
+                option(value='Werewolf') Werewolf
+                option(value='Zombie') Zombie
+            br
+            input(type='submit', value='Update')
