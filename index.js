@@ -23,13 +23,21 @@ var accessChecker = function (req, res, next) {
         res.redirect('/');
     }
 };
-
-app.get('/', function (req, res) {
+app.get('/', function (req, res) {    
     res.render('login');
 });
-
-
-
+app.get('/logout', function(req, res){
+    req.session.destroy(function(err){
+        if(err){
+            console.log(err);
+        }
+        else
+        {
+            res.redirect('/');
+            res.render('login');
+        }
+    });    
+});
 app.post('/', urlencodedParser, function (req, res) {
     if (req.body.username === 'user' && req.body.password === 'pass') {
         req.session.user = { isAuthenticated: true, username: req.body.username };
@@ -38,13 +46,13 @@ app.post('/', urlencodedParser, function (req, res) {
         res.redirect('/');
     }
 });
-
 var setCookie = function (req, res, next) {
     var currentDate = new Date();
     
     res.cookie('lastTimeHere', currentDate.getDate() + "/" + (currentDate.getMonth() + 1)  + "/" + currentDate.getFullYear() + " at " + currentDate.getHours() + ":" + currentDate.getMinutes());
     next();
 };
+
 
 
 

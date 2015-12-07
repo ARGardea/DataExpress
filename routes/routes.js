@@ -20,10 +20,7 @@ var Person = mongoose.model('Person', personSchema);
 
 
 exports.table = function (req, res) {
-    console.log("inside table");
     Person.find(function(err, person){
-        res.locals.people = person;
-        console.log(person);
         res.render('index', {people: person});
     });    
 };
