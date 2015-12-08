@@ -1,7 +1,8 @@
 var barGraph = (function () {
-    var CANVAS_WIDTH = 360,
-        CANVAS_HEIGHT = 350,
-        MAX_BAR_HEIGHT = 400;
+    var CANVAS_WIDTH = 500,
+        CANVAS_HEIGHT = 360,
+        MAX_BAR_HEIGHT = 400,
+        data;
 
     var canvas, context;
 
@@ -33,6 +34,12 @@ var barGraph = (function () {
             context.fillStyle = 'black';
             context.font = '14px sans-serif';
             context.fillText(text, dimensionsObject.x, dimensionsObject.y);
+        },
+        clearStuff: function () {
+            context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        },
+        loadData: function (dataChunk) {
+            data = dataChunk;
         },
         run: function () {
             console.log('bar graph script loaded!');
@@ -76,6 +83,12 @@ BarPair.prototype.draw = function (dimensionsObject, maxValue, maxHeight) {
         y2 = dimensionsObject.y;
     var height1 = (this.bar1.value / maxValue) * maxHeight;
     var height2 = (this.bar2.value / maxValue) * maxHeight;
+    if (height1 > maxHeight) {
+        height1 = maxHeight;
+    }
+    if (height2 > maxHeight) {
+        height2 = maxHeight;
+    }
     y1 = dimensionsObject.bottomY - height1;
     y2 = dimensionsObject.bottomY - height2;
     barGraph.drawBar(color1, {
@@ -105,44 +118,91 @@ BarPair.prototype.draw = function (dimensionsObject, maxValue, maxHeight) {
 };
 
 var dataObject = {
-    human: {
+    Human: {
         number: 1,
         victims: 10
     },
-    vampire: {
+    Vampire: {
         number: 2,
         victims: 5
     },
-    werewolf: {
+    Werewolf: {
         number: 4,
         victims: 8
     },
-    zombie: {
+    Zombie: {
         number: 10,
         victims: 3
     }
 };
 
+function parseData(targetData) {
+    var newDataObject = {
+        Human: {
+            number: 0,
+            victims: 0
+        },
+        Vampire: {
+            number: 0,
+            victims: 0
+        },
+        Werewolf: {
+            number: 0,
+            victims: 0
+        },
+        Zombie: {
+            number: 0,
+            victims: 0
+        }
+    };
+    for (var i = 0; i < targetData.length; i++) {
+        var target = targetData[i];
+        newDataObject[
+            target.species
+            ].number++;
+        newDataObject[
+            target.species
+            ].victims += target.victims;
+    }
+    return newDataObject;
+}
+
+function processData(targetData) {
+    var newData = parseData(targetData);
+    if (JSON.stringify(dataObject) !== JSON.stringify(newData)) {
+        dataObject = newData;
+        barGraph.clearStuff();
+        drawBars(dataObject);
+    }
+}
+
 function drawBars(targetData) {
     var humanBars = new BarPair("Number", "Victims", "Humans");
-    humanBars.setValues(targetData.human.number, targetData.human.victims);
+    humanBars.setValues(targetData.Human.number, targetData.Human.victims);
 
     var vampBars = new BarPair("Number", "Victims", "Vampires");
-    vampBars.setValues(targetData.vampire.number, targetData.vampire.victims);
+    vampBars.setValues(targetData.Vampire.number, targetData.Vampire.victims);
 
     var wereBars = new BarPair("Number", "Victims", "Werewolves");
-    wereBars.setValues(targetData.werewolf.number, targetData.werewolf.victims);
+    wereBars.setValues(targetData.Werewolf.number, targetData.Werewolf.victims);
 
     var zomBars = new BarPair("Number", "Victims", "Zombies");
-    zomBars.setValues(targetData.zombie.number, targetData.zombie.victims);
+    zomBars.setValues(targetData.Zombie.number, targetData.Zombie.victims);
 
     var maxValue = 10,
         maxHeight = 300,
-        startX = 25,
+        startX = 100,
         xInc = 80,
         width = 20,
         botY = 320;
 
+    var stringSet = ["Human", "Vampire", "Werewolf", "Zombie"];
+
+    for (var i = 0; i < stringSet.length; i++) {
+        while (targetData[stringSet[i]].number > maxValue || targetData[stringSet[i]].victims > maxValue) {
+            maxValue += 10;
+        }
+    }
 
     var topLeft = {
             x: startX,
@@ -176,7 +236,7 @@ function drawBars(targetData) {
 
     for (var i = 0; i < 10; i++) {
         barGraph.drawLine(lineColor, barLeft, barRight);
-        barGraph.drawText(valInc + valInc*i, {
+        barGraph.drawText(valInc + valInc * i, {
             x: barLeft.x - 6,
             y: barLeft.y + 5,
             textAlign: 'right'
@@ -215,9 +275,26 @@ function drawBars(targetData) {
     barGraph.drawLine(borderColor, topRight, botRight);
 }
 
+function updateGraph() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/JSON', true);
+    request.onload = function () {
+        console.log('loaded!');
+        if (request.status >= 200 && request.status < 400) {
+            var data = JSON.parse(request.responseText);
+            barGraph.loadData(data);
+            processData(data);
+        } else {
+            console.log(request);
+        }
+    }
+    request.send();
+}
+
 function run() {
     barGraph.run();
-    drawBars(dataObject);
+    updateGraph();
+    setInterval(updateGraph, 3000);
 }
 
 window.addEventListener("load", run);

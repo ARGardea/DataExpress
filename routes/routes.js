@@ -25,6 +25,14 @@ exports.table = function (req, res) {
     });    
 };
 
+exports.barGraph = function (req, res) {
+    console.log('JSON');
+    Person.find(function(err, person){
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(person));
+    });
+};
+
 exports.removeitem = function(req, res){
     Person.findOneAndRemove({_id: req.params.id}, function(err, person){
         if(err) throw err;

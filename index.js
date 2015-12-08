@@ -25,6 +25,7 @@ var accessChecker = function (req, res, next) {
 app.get('/', function (req, res) {    
     res.render('login');
 });
+
 app.get('/logout', function(req, res){
     req.session.destroy(function(err){
         if(err){
@@ -59,6 +60,7 @@ app.get('/table', setCookie, route.table);
 app.get('/create', accessChecker, route.create);
 app.get('/remove/:id', accessChecker, route.removeitem);
 app.get('/edit/:id', accessChecker, route.editpage);
+app.get('/JSON', route.barGraph);
 app.post('/edit/:id', urlParser, accessChecker, route.edititem);
 app.post('/create', urlParser, accessChecker, route.createitem);
 
