@@ -76,42 +76,7 @@ exports.createitem = function (req, res) {
 //---------------------------login---------------------------------------------------
     
 
-exports.getHumans = function(req, res){
-    Person.find({species: 'Human'}, function(err, people){
-       if(err){
-           console.error(err);
-       }else{
-           return people;
-       }
-    });
-};
-exports.getVampires = function(req, res){
-    Person.find({species: 'Vampire'}, function(err, people){
-       if(err){
-           console.error(err);
-       }else{
-           return people;
-       }
-    });
-};
-exports.getWerewolves = function(req, res){
-    Person.find({species: 'Werewolf'}, function(err, people){
-       if(err){
-           console.error(err);
-       }else{
-           return people;
-       }
-    });
-};
-exports.getZombies = function(req, res){
-    Person.find({species: 'Zombie'}, function(err, people){
-       if(err){
-           console.error(err);
-       }else{
-           return people;
-       }
-    });
-};
+
 
 
 

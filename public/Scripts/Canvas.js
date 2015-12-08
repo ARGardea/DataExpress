@@ -122,6 +122,7 @@ var dataObject = {
         victims: 3
     }
 };
+
 function drawBars(targetData) {
     var humanBars = new BarPair("Number", "Victims", "Humans");
     humanBars.setValues(targetData.human.number, targetData.human.victims);
