@@ -31,7 +31,7 @@ var barGraph = (function () {
         },
         drawText: function (text, dimensionsObject) {
             context.textAlign = dimensionsObject.textAlign || 'center';
-            context.fillStyle = 'black';
+            context.fillStyle = 'white';
             context.font = '14px sans-serif';
             context.fillText(text, dimensionsObject.x, dimensionsObject.y);
         },

@@ -1,24 +1,46 @@
 body{
     width: 95%;
-    background-color: lightblue;
+    background-color: #1C5955;
     text-align: center;
     margin: auto;
     
 }
 
 canvas{
+    margin-top: 10px;
+    margin-bottom: 5px;
     margin-left: auto;
     margin-right: auto;
     display: block;
+    background-color: #028C83;
+    border-radius: 5px;
 }
-
+h3{
+    color: white;
+}
 table, th, td {
+    background-color: #00aaaa;
     margin: auto;
-    border: 1px solid black;
-    padding: 5px;
+    border: 1px solid lightgray;
+    padding: 10px;
     text-align: center;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 5px;
 }
 a{
+    background-color: #01403C;
+    color: #03D9CA;
     padding: 5px;
-    margin: 5px;
+    margin: 10px;
+    border: 1px solid black;
+    text-decoration: none;
+    border-radius: 5px;
+}
+a:hover{
+    background-color: #03D9CA;
+    color: #01403C;
+}
+label{
+    color: white;
 }
